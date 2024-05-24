@@ -20,7 +20,7 @@ LIST_FILES=(
     "README.md"
     "requirements.txt"
     "__init__.py"
-    # config folder
+    # config dir
     "config/__init__.py"
     "config/config.py"
     "config/dev_config.py"
@@ -39,13 +39,31 @@ LIST_FILES=(
     "utils.py"
 )
 
+# mkdir temp_dir
+# git clone -n --depth=1 --filter=tree:0 https://github.com/0verread/cab temp_dir
+# cd temp_dir
+# git sparse-checkout set --no-cone flask-app
+# git checkout
+# rm -rf .git
+# cd ..
+# cp -r temp_dir/ .
+# rm -rf temp_dir
+
 # if . entered as a project name, take the cur dir name and make that a project assuming you're trying to create project in curr dir
 echo "$PROJECT_NAME"
 echo "[ `date` ]": "$(gum style --foreground 212 START)"
 echo "[ `date` ]": "creating project $(gum style --foreground "#008000" "$PROJECT_NAME" )"
+
 mkdir -p -- "$PROJECT_NAME"
-for file in ${LIST_FILES[@]}; do 
-    touch -- "$PROJECT_NAME/$file"
-done 
+mkdir -p -- "temp_dir"
+git clone -n --depth=1 --filter=tree:0 https://github.com/0verread/cab temp_dir
+cd temp_dir
+git sparse-checkout set --no-cone flask-app
+git checkout
+rm -rf .git
+cd ..
+cp -r temp_dir/ .
+rm -rf temp_dir
+
 echo "[ `date` ]": "$(gum style --foreground 212 END)"
 
